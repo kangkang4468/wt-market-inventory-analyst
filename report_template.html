@@ -957,10 +957,122 @@
             border-color: var(--gold);
             box-shadow: 0 0 12px rgba(224, 169, 109, 0.15);
         }
+
+        /* 锁屏屏障样式 */
+        #password-barrier {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 16, 19, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        
+        .lock-card {
+            background: #15171e;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .lock-card.shake {
+            animation: shake 0.4s ease-in-out;
+            border-color: var(--red);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .lock-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .lock-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            color: var(--gold-light);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .lock-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .password-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .password-input-group input {
+            flex: 1;
+            background: #0f1013;
+            border: 1px solid rgba(224, 169, 109, 0.2);
+            border-radius: 6px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .password-input-group input:focus {
+            border-color: var(--gold);
+        }
+
+        .password-input-group button {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #15171e;
+            border: none;
+            border-radius: 6px;
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .password-input-group button:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 
 <body>
+    <!-- 锁屏密码屏障 -->
+    <div id="password-barrier">
+        <div class="lock-card" id="lockCard">
+            <div class="lock-icon">🔒</div>
+            <h2>系统已加密保护</h2>
+            <p>这是一个受限的私有仓库数据分析面板，请输入访问密码以解锁查看：</p>
+            <div class="password-input-group">
+                <input type="password" id="barrier-pwd" placeholder="请输入密码..." autofocus onkeydown="if(event.key==='Enter') verifyGlobalPassword()">
+                <button onclick="verifyGlobalPassword()">解锁</button>
+            </div>
+            <div id="barrier-error" style="color: var(--red); font-size: 13px; margin-top: 15px; display: none; font-weight: 500;">❌ 密码错误，请重新输入！</div>
+        </div>
+    </div>
+
     <!-- 全屏科技感金色粒子背景 -->
     <canvas id="particle-canvas"></canvas>
 
@@ -1127,6 +1239,11 @@
                 style="background: #24292e; color: #c9d1d9; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: none;"
                 title="配置您的 GitHub 个人访问 Token (安全加密保存在本地浏览器)">
                 <span>🔑 配置 GitHub 密钥</span>
+            </button>
+            <button class="export-btn" id="lockPageBtn" onclick="lockPage()" 
+                style="background: #1e2230; color: var(--gold); border: 1px solid var(--gold-dark); box-shadow: none;"
+                title="重新锁定面板，防止他人窥看资产与敏感信息">
+                <span>🔒 锁定面板</span>
             </button>
         </div>
     </div>
@@ -1900,8 +2017,74 @@
             return (sellPrice * 0.85 - pPrice) * qty;
         }
 
-        // 配置并本地保存用于云端直连同步的 GitHub Token
+        // ==========================================
+        // 页面访问密码与安全防窥障壁控制逻辑
+        // ==========================================
+        function checkPageLock() {
+            const barrier = document.getElementById('password-barrier');
+            if (sessionStorage.getItem('wt_inventory_unlocked') === 'true') {
+                if (barrier) {
+                    barrier.style.display = 'none';
+                }
+                document.body.style.overflow = '';
+            } else {
+                if (barrier) {
+                    barrier.style.display = 'flex';
+                }
+                document.body.style.overflow = 'hidden';
+                const pwdInput = document.getElementById('barrier-pwd');
+                if (pwdInput) {
+                    setTimeout(() => pwdInput.focus(), 100);
+                }
+            }
+        }
+
+        function verifyGlobalPassword() {
+            const pwdInput = document.getElementById('barrier-pwd');
+            const errorDiv = document.getElementById('barrier-error');
+            const lockCard = document.getElementById('lockCard');
+            if (!pwdInput) return;
+
+            const val = pwdInput.value;
+            if (val === 'abcd1234') {
+                sessionStorage.setItem('wt_inventory_unlocked', 'true');
+                const barrier = document.getElementById('password-barrier');
+                if (barrier) {
+                    barrier.style.opacity = '0';
+                    setTimeout(() => {
+                        barrier.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }, 400);
+                }
+            } else {
+                if (errorDiv) {
+                    errorDiv.style.display = 'block';
+                }
+                if (lockCard) {
+                    lockCard.classList.add('shake');
+                    setTimeout(() => {
+                        lockCard.classList.remove('shake');
+                    }, 400);
+                }
+                pwdInput.value = '';
+                pwdInput.focus();
+            }
+        }
+
+        function lockPage() {
+            sessionStorage.removeItem('wt_inventory_unlocked');
+            window.location.reload();
+        }
+
+        // 配置并本地保存用于云端直连同步 of GitHub Token
         function promptGithubToken() {
+            const pwd = prompt("请输入管理密码授权该操作:");
+            if (pwd === null) return;
+            if (pwd !== "abcd1234") {
+                showToast("❌ <b>授权失败</b>: 管理密码错误！");
+                return;
+            }
+
             const currentToken = localStorage.getItem('github_repo_token') || "";
             const token = prompt("请输入您的 GitHub 个人访问令牌 (Personal Access Token):\n\n(需要勾选 [repo] 写入权限。此 Token 将仅保存在您当前设备本地的浏览器缓存中，100% 绝对安全，永不上传到第三方服务器)", currentToken);
             if (token === null) return;
@@ -1920,6 +2103,13 @@
             const token = localStorage.getItem('github_repo_token');
             if (!token) {
                 showToast("🔑 <b>尚未配置 GitHub 密钥！</b><br>请先点击右侧的 [🔑 配置 GitHub 密钥] 输入您的 Token，即可激活 1 秒云端直连覆盖！");
+                return;
+            }
+
+            const pwd = prompt("请输入管理密码授权云端同步:");
+            if (pwd === null) return;
+            if (pwd !== "abcd1234") {
+                showToast("❌ <b>授权失败</b>: 管理密码错误，云端同步已中止！");
                 return;
             }
 
@@ -2158,6 +2348,9 @@
 
         // 初始化网页
         document.addEventListener('DOMContentLoaded', () => {
+            // 立即执行页面安全锁屏检测，保护私有资产信息
+            checkPageLock();
+
             if (!inventoryData || inventoryData.length === 0) {
                 document.getElementById('emptyState').style.display = 'block';
                 return;
