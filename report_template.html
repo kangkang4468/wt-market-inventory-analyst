@@ -2076,15 +2076,8 @@
             window.location.reload();
         }
 
-        // 配置并本地保存用于云端直连同步 of GitHub Token
+        // 配置并本地保存用于云端直连同步的 GitHub Token
         function promptGithubToken() {
-            const pwd = prompt("请输入管理密码授权该操作:");
-            if (pwd === null) return;
-            if (pwd !== "abcd1234") {
-                showToast("❌ <b>授权失败</b>: 管理密码错误！");
-                return;
-            }
-
             const currentToken = localStorage.getItem('github_repo_token') || "";
             const token = prompt("请输入您的 GitHub 个人访问令牌 (Personal Access Token):\n\n(需要勾选 [repo] 写入权限。此 Token 将仅保存在您当前设备本地的浏览器缓存中，100% 绝对安全，永不上传到第三方服务器)", currentToken);
             if (token === null) return;
@@ -2106,12 +2099,6 @@
                 return;
             }
 
-            const pwd = prompt("请输入管理密码授权云端同步:");
-            if (pwd === null) return;
-            if (pwd !== "abcd1234") {
-                showToast("❌ <b>授权失败</b>: 管理密码错误，云端同步已中止！");
-                return;
-            }
 
             showToast("🔄 正在安全连接 GitHub 云端，准备覆盖保存...");
 
