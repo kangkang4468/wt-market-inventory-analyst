@@ -11,13 +11,11 @@ on:
       - 'inventory_meta.json'
       - '*.py'
       - '.github/workflows/**'
-
   schedule:
-    # 每天北京时间凌晨 04:00 自动执行 (12:00 +0800 对应 UTC 20:00)
+    # 每天北京时间凌晨 04:00 自动执行
     - cron: '0 20 * * *'
   workflow_dispatch:
-    # 支持用户在 GitHub 网页上随时手动一键触发运行
-
+    # 支持手动触发
 
 permissions:
   contents: write
@@ -42,12 +40,8 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
-      - name: Run Python Scraper
-        # 运行我们编写的高并发爬虫获取最新价格
-        run: python scraper.py
-
       - name: Run Analytics
-        # 运行原有分析脚本生成最新的 report.html
+        # 运行分析脚本生成最新的 report.html
         run: python analyze.py
 
       - name: Prepare HTML for GitHub Pages
@@ -59,8 +53,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add daily_json/gaijin_market_*.json report.html index.html
-          git diff-index --quiet HEAD || git commit -m "chore: 自动更新今日大盘数据及分析报告 [$(date +'%Y-%m-%d')]"
+          git add daily_json/gaijin_inventory_*.json report.html index.html
+          git diff-index --quiet HEAD || git commit -m "chore: 自动更新今日个人仓库数据及分析报告 [$(date +'%Y-%m-%d')]"
           git push
 
       - name: Upload Artifact
