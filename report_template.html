@@ -325,29 +325,78 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .filter-btn {
             background: #1e2230;
             border: 1px solid var(--card-border);
             color: var(--text-muted);
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            user-select: none;
         }
 
         .filter-btn:hover {
             color: var(--text-main);
             border-color: var(--gold-dark);
+            background: #242838;
         }
 
         .filter-btn.active {
             background: var(--gold);
             color: #0f1013;
-            font-weight: 600;
+            font-weight: 700;
             border-color: var(--gold);
+            box-shadow: 0 2px 10px rgba(224, 169, 109, 0.3);
+        }
+
+        .filter-btn.active .filter-count {
+            background: rgba(0, 0, 0, 0.25);
+            color: #0f1013;
+            font-weight: 700;
+        }
+
+        .filter-count {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .filter-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-row-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold-light);
+            min-width: 75px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            letter-spacing: 0.3px;
         }
 
         /* 数据表格面板 */
@@ -533,6 +582,43 @@
         .badge-sell-quick {
             background-color: rgba(244, 63, 94, 0.15);
             color: #f43f5e;
+        }
+
+        /* 物品分类徽章样式 */
+        .badge-cat-vehicle {
+            background: rgba(224, 169, 109, 0.15);
+            color: var(--gold);
+            border: 1px solid rgba(224, 169, 109, 0.35);
+        }
+
+        .badge-cat-camo {
+            background: rgba(192, 132, 252, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(192, 132, 252, 0.35);
+        }
+
+        .badge-cat-box {
+            background: rgba(251, 146, 60, 0.15);
+            color: #fb923c;
+            border: 1px solid rgba(251, 146, 60, 0.35);
+        }
+
+        .badge-cat-item {
+            background: rgba(96, 165, 250, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.35);
+        }
+
+        .badge-cat-mat {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.35);
+        }
+
+        .badge-cat-other {
+            background: rgba(156, 163, 175, 0.15);
+            color: #9ca3af;
+            border: 1px solid rgba(156, 163, 175, 0.35);
         }
 
         /* 评分等级颜色 */
@@ -1055,6 +1141,201 @@
         .password-input-group button:hover {
             opacity: 0.9;
         }
+
+        /* 同步按钮与模态弹窗样式 */
+        .sync-btn {
+            background: rgba(224, 169, 109, 0.12);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(224, 169, 109, 0.1);
+        }
+        .sync-btn:hover {
+            background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+            color: #0f1013;
+            box-shadow: 0 0 15px rgba(224, 169, 109, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 11, 14, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-box {
+            background: #15171e;
+            border: 1px solid rgba(224, 169, 109, 0.3);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 580px;
+            padding: 26px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(224, 169, 109, 0.15);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .modal-header h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-dark);
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .modal-close:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .drop-zone {
+            border: 2px dashed rgba(224, 169, 109, 0.35);
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            background: rgba(224, 169, 109, 0.02);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 16px;
+        }
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: var(--gold);
+            background: rgba(224, 169, 109, 0.08);
+            box-shadow: 0 0 15px rgba(224, 169, 109, 0.15);
+        }
+        .drop-zone-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        .drop-zone-text {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .file-info-badge {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-bottom: 6px;
+        }
+        .form-input {
+            width: 100%;
+            background: #0f1013;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 9px 12px;
+            color: var(--text-main);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        .form-input:focus {
+            border-color: var(--gold);
+        }
+        .token-tip {
+            font-size: 11px;
+            color: var(--text-dark);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+            border: none;
+            color: #0f1013;
+            font-weight: 700;
+            padding: 11px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary:hover:not(:disabled) {
+            box-shadow: 0 0 20px rgba(224, 169, 109, 0.4);
+            transform: translateY(-1px);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .status-log {
+            display: none;
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #0f1013;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 12px;
+            line-height: 1.6;
+            max-height: 130px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 
@@ -1082,20 +1363,26 @@
             <h1>GAIJIN MARKET ANALYST</h1>
             <p>基于数据统计的战雷载具投资与套现建议仪表盘</p>
         </div>
-        <div class="custom-dropdown" id="snapshotDropdown">
-            <span id="snapshot-indicator"
-                style="display: none; background: var(--red-bg); color: var(--red); border: 1px solid var(--red); font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: bold; animation: pulse 2s infinite;">[时光回溯中]</span>
-            数据版本:
-            <div class="dropdown-trigger" onclick="toggleDropdown(event)">
-                <span id="dropdown-current-val">加载中...</span>
-                <svg class="arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
-                    style="transition: transform 0.3s; color: var(--gold);">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-            </div>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <!-- 动态填充的微缩快照卡片列表 -->
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <button class="sync-btn" onclick="openUploadModal()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="12 13 12 8 9 11"/><polyline points="12 8 15 11"/></svg>
+                ☁️ 同步最新数据
+            </button>
+            <div class="custom-dropdown" id="snapshotDropdown">
+                <span id="snapshot-indicator"
+                    style="display: none; background: var(--red-bg); color: var(--red); border: 1px solid var(--red); font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: bold; animation: pulse 2s infinite;">[时光回溯中]</span>
+                数据版本:
+                <div class="dropdown-trigger" onclick="toggleDropdown(event)">
+                    <span id="dropdown-current-val">加载中...</span>
+                    <svg class="arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                        style="transition: transform 0.3s; color: var(--gold);">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <!-- 动态填充的微缩快照卡片列表 -->
+                </div>
             </div>
         </div>
     </header>
@@ -1106,14 +1393,14 @@
             <span class="stat-label">总资产估值（以售价计）</span>
             <div class="stat-value"><span id="total-sell-value">0.00</span><span>GJN</span></div>
             <div class="stat-desc">
-                根据市场当前最低在售价计算
+                保守公允估值: <span id="total-fair-value" style="color: var(--gold); font-weight: 600; margin-left: 4px;">0.00</span> GJN
             </div>
         </div>
         <div class="stat-card profit">
             <span class="stat-label">估算税后总收益（扣15%）</span>
             <div class="stat-value" style="color: var(--green);"><span id="net-value">0.00</span><span>GJN</span></div>
             <div class="stat-desc">
-                扣除官方交易税，实际可到手金币
+                公允税后净值: <span id="net-fair-value" style="color: var(--green); font-weight: 600; margin-left: 4px;">0.00</span> GJN
             </div>
         </div>
         <div class="stat-card profit" id="profit-card">
@@ -1215,42 +1502,78 @@
 
     <!-- 数据控制面板 -->
     <div class="controls-card">
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" class="search-input" placeholder="输入载具名称搜索...">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜索载具 / 涂装 / 箱子 / 道具挂饰名称...">
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button class="export-btn" id="exportMetaBtn" onclick="exportInventoryMeta()"
+                    title="保存当前价格并下载 inventory_meta.json 本地备份"
+                    style="background: #1e2230; color: var(--text-main); border: 1px solid var(--card-border); box-shadow: none;">
+                    <span>💾 本地下载</span>
+                </button>
+                <button class="export-btn" id="syncGithubBtn" onclick="syncInventoryMetaToGitHub()" 
+                    style="background: linear-gradient(135deg, #2ea44f 0%, #22863a 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(34, 134, 58, 0.25);"
+                    title="一键直接同步覆盖至 GitHub 仓库，免除下载和手动推送">
+                    <span>🔄 一键同步至云端仓库</span>
+                </button>
+                <button class="export-btn" id="configGithubBtn" onclick="promptGithubToken()" 
+                    style="background: #24292e; color: #c9d1d9; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: none;"
+                    title="配置您的 GitHub 个人访问 Token (安全加密保存在本地浏览器)">
+                    <span>🔑 配置 GitHub 密钥</span>
+                </button>
+                <button class="export-btn" id="lockPageBtn" onclick="lockPage()" 
+                    style="background: #1e2230; color: var(--gold); border: 1px solid var(--gold-dark); box-shadow: none;"
+                    title="重新锁定面板，防止他人窥看资产与敏感信息">
+                    <span>🔒 锁定面板</span>
+                </button>
+            </div>
         </div>
-        <div class="filter-buttons" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-            <button class="filter-btn active" data-action="all">全部物品</button>
-            <button class="filter-btn" data-action="badge-hold-strong">强力持有</button>
-            <button class="filter-btn" data-action="badge-hold-neutral">稳定持仓</button>
-            <button class="filter-btn" data-action="badge-hold-dip">低位等待</button>
-            <button class="filter-btn" data-action="badge-sell-gradual">建议卖出</button>
-            <button class="filter-btn" data-action="badge-sell-quick">快速套现</button>
-            <button class="export-btn" id="exportMetaBtn" onclick="exportInventoryMeta()"
-                title="保存当前价格并下载 inventory_meta.json 本地备份"
-                style="background: #1e2230; color: var(--text-main); border: 1px solid var(--card-border); box-shadow: none;">
-                <span>💾 本地下载</span>
-            </button>
-            <button class="export-btn" id="syncGithubBtn" onclick="syncInventoryMetaToGitHub()" 
-                style="background: linear-gradient(135deg, #2ea44f 0%, #22863a 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(34, 134, 58, 0.25);"
-                title="一键直接同步覆盖至 GitHub 仓库，免除下载和手动推送">
-                <span>🔄 一键同步至云端仓库</span>
-            </button>
-            <button class="export-btn" id="configGithubBtn" onclick="promptGithubToken()" 
-                style="background: #24292e; color: #c9d1d9; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: none;"
-                title="配置您的 GitHub 个人访问 Token (安全加密保存在本地浏览器)">
-                <span>🔑 配置 GitHub 密钥</span>
-            </button>
-            <button class="export-btn" id="lockPageBtn" onclick="lockPage()" 
-                style="background: #1e2230; color: var(--gold); border: 1px solid var(--gold-dark); box-shadow: none;"
-                title="重新锁定面板，防止他人窥看资产与敏感信息">
-                <span>🔒 锁定面板</span>
-            </button>
+
+        <!-- 多维度联动筛选区域 -->
+        <div class="filter-section">
+            <!-- 类别筛选 -->
+            <div class="filter-row">
+                <span class="filter-row-label">🏷️ 物品类别:</span>
+                <div class="filter-buttons" id="categoryFilterGroup">
+                    <button class="filter-btn active" data-filter-type="category" data-val="all">全部类别 <span id="count-cat-all" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="category" data-val="载具">🚀 载具 <span id="count-cat-vehicle" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="category" data-val="涂装">🎨 涂装 <span id="count-cat-camo" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="category" data-val="箱子">📦 箱子 <span id="count-cat-box" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="category" data-val="道具/挂饰">🔑 道具/挂饰 <span id="count-cat-item" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="category" data-val="活动材料">⚙️ 活动材料 <span id="count-cat-mat" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="category" data-val="其他">📎 其他 <span id="count-cat-other" class="filter-count">0</span></button>
+                </div>
+            </div>
+
+            <!-- 操作建议筛选 -->
+            <div class="filter-row">
+                <span class="filter-row-label">💡 操作建议:</span>
+                <div class="filter-buttons" id="actionFilterGroup">
+                    <button class="filter-btn active" data-filter-type="action" data-val="all">全部建议 <span id="count-act-all" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="action" data-val="STRONG_HOLD">🌟 强力持有 <span id="count-act-strong" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="action" data-val="HOLD_NEUTRAL">⚖️ 稳健持仓 <span id="count-act-neutral" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="action" data-val="HOLD_DIP">📉 低位等待 <span id="count-act-dip" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="action" data-val="GRADUAL_SELL">💰 建议卖出 <span id="count-act-gradual" class="filter-count">0</span></button>
+                    <button class="filter-btn" data-filter-type="action" data-val="QUICK_SELL">⚡ 快速套现 <span id="count-act-quick" class="filter-count">0</span></button>
+                </div>
+            </div>
+
+            <!-- 成本状态筛选 -->
+            <div class="filter-row">
+                <span class="filter-row-label">📊 成本状态:</span>
+                <div class="filter-buttons" id="costFilterGroup">
+                    <button class="filter-btn active" data-filter-type="cost" data-val="all">全部成本</button>
+                    <button class="filter-btn" data-filter-type="cost" data-val="set">✅ 已录入成本</button>
+                    <button class="filter-btn" data-filter-type="cost" data-val="unset">⏳ 未录入成本</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- 导航选项卡 Tabs -->
     <div class="tab-navigation">
-        <button class="tab-btn active" id="tabInventory" onclick="switchTab('inventory')">全部库存载具 (<span
+        <button class="tab-btn active" id="tabInventory" onclick="switchTab('inventory')">全部库存物品 (<span
                 id="tab-inventory-count">0</span>)<span id="snapshot-indicator"
                 style="font-size: 11px; color: var(--red); font-weight: bold; margin-left: 6px; display: none;">[查看历史快照中]</span></button>
         <button class="tab-btn" id="tabDiff" onclick="switchTab('diff')">仓库最近变动比对 (新增 <span id="tab-diff-added">0</span>
@@ -1295,18 +1618,19 @@
             <table id="inventoryTable">
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0)" style="width: 14%">载具/物品</th>
+                        <th onclick="sortTable(0)" style="width: 13%">载具/物品</th>
+                        <th onclick="sortTable(11)" style="width: 6%">类别</th>
                         <th onclick="sortTable(1)" style="width: 4%">数量</th>
-                        <th onclick="sortTable(2)" style="width: 10%">收录与首次上架</th>
+                        <th onclick="sortTable(2)" style="width: 9%">收录与首次上架</th>
                         <th onclick="sortTable(3)" style="width: 8%">最低市价 (在售)</th>
-                        <th style="width: 8%">购入单价 (GJN)</th>
-                        <th onclick="sortTable(8)" style="width: 9%">盈亏估算 (税后)</th>
+                        <th style="width: 7%">购入单价 (GJN)</th>
+                        <th onclick="sortTable(8)" style="width: 8%">盈亏估算 (税后)</th>
                         <th onclick="sortTable(4)" style="width: 8%">最高求购 (求购)</th>
                         <th onclick="sortTable(5)" style="width: 5%">价差</th>
                         <th onclick="sortTable(6)" style="width: 7%">增值潜力</th>
-                        <th onclick="sortTable(7)" style="width: 9%">操作建议</th>
-                        <th onclick="sortTable(9)" style="width: 10%">建议买入日期</th>
-                        <th onclick="sortTable(10)" style="width: 10%">建议卖出日期</th>
+                        <th onclick="sortTable(7)" style="width: 8%">操作建议</th>
+                        <th onclick="sortTable(9)" style="width: 8%">建议买入日期</th>
+                        <th onclick="sortTable(10)" style="width: 8%">建议卖出日期</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -1561,15 +1885,39 @@
             return 'poor';
         }
 
+        // 根据类别获取 Badge
+        function getCategoryBadge(category) {
+            switch (category) {
+                case '载具': return '<span class="badge badge-cat-vehicle">🚀 载具</span>';
+                case '涂装': return '<span class="badge badge-cat-camo">🎨 涂装</span>';
+                case '箱子': return '<span class="badge badge-cat-box">📦 箱子</span>';
+                case '道具/挂饰': return '<span class="badge badge-cat-item">🔑 道具</span>';
+                case '活动材料': return '<span class="badge badge-cat-mat">⚙️ 材料</span>';
+                default: return `<span class="badge badge-cat-other">${category || '其他'}</span>`;
+            }
+        }
+
         // 根据建议代码获取 Badge
         function getActionBadge(action) {
             switch (action) {
                 case 'STRONG_HOLD': return '<span class="badge badge-hold-strong">强力持有</span>';
-                case 'HOLD_NEUTRAL': return '<span class="badge badge-hold-neutral">稳定持有</span>';
-                case 'HOLD_DIP': return '<span class="badge badge-hold-dip">低谷等待</span>';
-                case 'GRADUAL_SELL': return '<span class="badge badge-sell-gradual">建议分批</span>';
-                case 'QUICK_SELL': return '<span class="badge badge-sell-quick">即刻变现</span>';
+                case 'HOLD_NEUTRAL': return '<span class="badge badge-hold-neutral">稳健持仓</span>';
+                case 'HOLD_DIP': return '<span class="badge badge-hold-dip">低位等待</span>';
+                case 'GRADUAL_SELL': return '<span class="badge badge-sell-gradual">建议卖出</span>';
+                case 'QUICK_SELL': return '<span class="badge badge-sell-quick">快速套现</span>';
                 default: return '<span class="badge">' + action + '</span>';
+            }
+        }
+
+        // 根据建议代码获取纯文本 (用于搜索)
+        function getActionText(action) {
+            switch (action) {
+                case 'STRONG_HOLD': return '强力持有';
+                case 'HOLD_NEUTRAL': return '稳健持仓 稳定持有';
+                case 'HOLD_DIP': return '低谷等待 低位等待';
+                case 'GRADUAL_SELL': return '建议卖出 建议分批';
+                case 'QUICK_SELL': return '快速套现 即刻变现';
+                default: return action || '';
             }
         }
 
@@ -1763,7 +2111,8 @@
                     document.getElementById('snapshot-indicator').style.display = 'none';
 
                     calculateKPIs();
-                    renderTable(inventoryData);
+                    initFilterCounts(inventoryData);
+                    filterData();
                     renderPieChart();
                     initHistorySnapPanel();
                     initSnapshotDropdown(); // 重绘下拉微型卡片
@@ -1783,7 +2132,8 @@
                 }
 
                 calculateKPIs(activeInventorySource);
-                renderTable(activeInventorySource);
+                initFilterCounts(activeInventorySource);
+                filterData();
                 renderPieChart(activeInventorySource);
                 initHistorySnapPanel();
                 initSnapshotDropdown(); // 重绘下拉微型卡片并高亮
@@ -1952,7 +2302,7 @@
                 // 内联更新当前行盈亏，免重载卡顿
                 const row = document.querySelector(`#tableBody tr[data-name="${name}"]`);
                 if (row) {
-                    const profitCell = row.cells[5];
+                    const profitCell = row.cells[6];
                     if (profitCell) {
                         profitCell.innerHTML = renderItemProfit(item);
                     }
@@ -1974,8 +2324,16 @@
 
         // 渲染单个载具的税后利润与盈亏比
         function renderItemProfit(item) {
-            // 若 purchasePrice 未定义或为空，默认设为 0 成本
-            const pPrice = (item.purchasePrice !== undefined && item.purchasePrice !== '') ? parseFloat(item.purchasePrice) : 0;
+            const hasCost = (item.purchasePrice !== undefined && item.purchasePrice !== '' && !isNaN(parseFloat(item.purchasePrice)) && parseFloat(item.purchasePrice) > 0);
+            
+            if (!hasCost) {
+                return `
+                    <div class="profit-text neutral" style="color: var(--text-dark); font-size: 12px; font-weight: normal;">-</div>
+                    <div class="profit-pct-badge neutral" style="color: var(--text-dark); font-size: 9px; cursor: pointer;" title="点击左侧输入平均购入价">未录成本</div>
+                `;
+            }
+
+            const pPrice = parseFloat(item.purchasePrice);
             const sellPrice = item.sellPrice || 0;
             const qty = item.quantity || 1;
 
@@ -1983,27 +2341,21 @@
             const singleProfit = singleNet - pPrice;
             const totalProfit = singleProfit * qty;
 
-            // 计算盈亏百分比（增加防零除）
-            let profitPctText = '';
-            if (pPrice > 0) {
-                const profitPct = (singleProfit / pPrice) * 100;
-                const sym = profitPct > 0 ? '+' : '';
-                const pctCls = profitPct > 0 ? 'positive' : (profitPct < 0 ? 'negative' : 'neutral');
-                profitPctText = `<div class="profit-pct-badge ${pctCls}">${sym}${profitPct.toFixed(1)}%</div>`;
-            } else {
-                profitPctText = `<div class="profit-pct-badge neutral">无成本</div>`;
-            }
+            const profitPct = (singleProfit / pPrice) * 100;
+            const sym = profitPct > 0 ? '+' : '';
+            const pctCls = profitPct > 0 ? 'positive' : (profitPct < 0 ? 'negative' : 'neutral');
+            const profitPctText = `<div class="profit-pct-badge ${pctCls}">${sym}${profitPct.toFixed(1)}%</div>`;
 
             const isPos = totalProfit > 0;
             const isNeg = totalProfit < 0;
 
             let cls = 'neutral';
-            let sym = '';
-            if (isPos) { cls = 'positive'; sym = '+'; }
+            let symP = '';
+            if (isPos) { cls = 'positive'; symP = '+'; }
             if (isNeg) { cls = 'negative'; }
 
             return `
-                <div class="profit-text ${cls}">${sym}${totalProfit.toFixed(2)} GJN</div>
+                <div class="profit-text ${cls}">${symP}${totalProfit.toFixed(2)} GJN</div>
                 ${profitPctText}
             `;
         }
@@ -2364,6 +2716,7 @@
             renderPieChart();
             initDiffPanel();
             initHistorySnapPanel(); // 初始化快照统计与列表
+            initFilterCounts(inventoryData); // 初始化分类与操作建议计数
 
             // 默认渲染第一个物品的价格走势图
             if (inventoryData.length > 0) {
@@ -2384,15 +2737,20 @@
             // 监听搜索框
             document.getElementById('searchInput').addEventListener('input', filterData);
 
-            // 监听筛选按钮
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    // 如果是导出按钮就不执行普通筛选
-                    if (e.target.id === 'exportMetaBtn' || e.target.closest('#exportMetaBtn')) return;
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    filterData();
-                });
+            // 监听多维筛选组按钮点击 (按父容器独立切换 active)
+            ['categoryFilterGroup', 'actionFilterGroup', 'costFilterGroup'].forEach(groupId => {
+                const groupEl = document.getElementById(groupId);
+                if (groupEl) {
+                    groupEl.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const targetBtn = e.target.closest('.filter-btn');
+                            if (!targetBtn) return;
+                            groupEl.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                            targetBtn.classList.add('active');
+                            filterData();
+                        });
+                    });
+                }
             });
 
             // 监听下拉框选择
@@ -2436,21 +2794,27 @@
         // 计算顶部核心KPI
         function calculateKPIs(sourceData = activeInventorySource) {
             let totalSellVal = 0;
+            let totalFairVal = 0;
             let netVal = 0;
+            let netFairVal = 0;
             let totalItems = 0;
             let uniqueItems = sourceData.length;
             let holdCount = 0;
             let sellCount = 0;
             let totalCost = 0;
+            let costCount = 0;
 
             sourceData.forEach(item => {
                 const qty = item.quantity || 1;
                 totalItems += qty;
                 const price = item.sellPrice || 0;
+                const fair = item.fairPrice || price;
                 totalSellVal += price * qty;
+                totalFairVal += fair * qty;
 
                 // 扣税收益
                 netVal += price * qty * 0.85;
+                netFairVal += fair * qty * 0.85;
 
                 // 统计买卖推荐分布
                 if (item.action === 'GRADUAL_SELL' || item.action === 'QUICK_SELL') {
@@ -2459,13 +2823,18 @@
                     holdCount += qty;
                 }
 
-                // 统计成本（若为空或未定义则默认设为 0）
-                const pPrice = (item.purchasePrice !== undefined && item.purchasePrice !== '') ? parseFloat(item.purchasePrice) : 0;
-                totalCost += pPrice * qty;
+                // 统计成本（仅计入已填写的有效成本）
+                const pPrice = (item.purchasePrice !== undefined && item.purchasePrice !== '' && !isNaN(parseFloat(item.purchasePrice))) ? parseFloat(item.purchasePrice) : null;
+                if (pPrice !== null && pPrice > 0) {
+                    totalCost += pPrice * qty;
+                    costCount += qty;
+                }
             });
 
             animateValue('total-sell-value', 0, totalSellVal, 1600, 2);
+            animateValue('total-fair-value', 0, totalFairVal, 1600, 2);
             animateValue('net-value', 0, netVal, 1600, 2);
+            animateValue('net-fair-value', 0, netFairVal, 1600, 2);
             animateValue('total-items', 0, totalItems, 1300, 0);
             animateValue('unique-items', 0, uniqueItems, 1300, 0);
             animateValue('sell-count', 0, sellCount, 1300, 0);
@@ -2475,26 +2844,43 @@
                 document.getElementById('action-ratio').innerText = `${sellCount}:${holdCount}`;
             }
 
-            // 盈亏总估算
-            const totalProfit = netVal - totalCost;
+            // 盈亏总估算 (以已录入成本的载具对比其税后净值)
+            let totalProfit = 0;
+            let profitCoveredNet = 0;
+            sourceData.forEach(item => {
+                const pPrice = (item.purchasePrice !== undefined && item.purchasePrice !== '' && !isNaN(parseFloat(item.purchasePrice))) ? parseFloat(item.purchasePrice) : null;
+                if (pPrice !== null && pPrice > 0) {
+                    const qty = item.quantity || 1;
+                    const singleNet = (item.sellPrice || 0) * 0.85;
+                    profitCoveredNet += singleNet * qty;
+                }
+            });
+            totalProfit = profitCoveredNet - totalCost;
+
             animateValue('total-profit-val', 0, totalProfit, 1600, 2);
 
             const profitCard = document.getElementById('profit-card');
             const profitBox = document.getElementById('total-profit-box');
             const profitDesc = document.getElementById('total-profit-desc');
 
-            if (totalProfit > 0) {
+            const coveragePct = totalItems > 0 ? ((costCount / totalItems) * 100).toFixed(0) : 0;
+
+            if (costCount === 0) {
+                profitCard.className = 'stat-card hold';
+                profitBox.style.color = 'var(--blue)';
+                profitDesc.innerHTML = `已录成本: <b style="color:var(--text-main);">0/${totalItems}</b> 件 (未录入成本)`;
+            } else if (totalProfit > 0) {
                 profitCard.className = 'stat-card profit';
                 profitBox.style.color = 'var(--green)';
-                profitDesc.innerText = `税后总收益 - 估算购入成本 (盈利中)`;
+                profitDesc.innerHTML = `已录成本: <b style="color:var(--gold);">${costCount}/${totalItems}</b> 件 (${coveragePct}% 覆盖) · 盈利中`;
             } else if (totalProfit < 0) {
                 profitCard.className = 'stat-card sell';
                 profitBox.style.color = 'var(--red)';
-                profitDesc.innerText = `税后总收益 - 估算购入成本 (亏损中)`;
+                profitDesc.innerHTML = `已录成本: <b style="color:var(--gold);">${costCount}/${totalItems}</b> 件 (${coveragePct}% 覆盖) · 亏损中`;
             } else {
                 profitCard.className = 'stat-card hold';
-                profitBox.style.color = 'var(--blue)';
-                profitDesc.innerText = `税后总收益 - 估算购入成本 (未计入成本)`;
+                profitBox.style.color = 'var(--text-main)';
+                profitDesc.innerHTML = `已录成本: <b style="color:var(--gold);">${costCount}/${totalItems}</b> 件 (${coveragePct}% 覆盖) · 保本`;
             }
         }
 
@@ -2540,6 +2926,15 @@
                 const score = item.growthScore !== undefined ? Math.round(item.growthScore) : 0;
                 const scoreClass = getScoreClass(score);
 
+                // 天花板预警标签
+                const ceilingBadge = item.isNearCeiling ? '<span class="badge badge-sell-gradual" style="font-size: 8px; padding: 1px 4px; margin-left: 4px; text-transform: none;" title="单价接近 2000 GJN 交易所硬顶">顶峰预警</span>' : '';
+
+                // 公允价格差异提示
+                let fairText = '';
+                if (item.fairPrice && item.sellPrice && item.fairPrice < item.sellPrice * 0.96) {
+                    fairText = `<div style="font-size: 9px; color: var(--gold-dark); text-align: right;" title="根据买盘和均线计算的保守公允估值">公允: ${item.fairPrice.toFixed(1)} G</div>`;
+                }
+
                 // 计算跨历史快照售价的真实波动百分比文字 (用于最低市价)
                 let snapshotGrowthText = '';
                 if (item.snapshotPriceHistoryCount >= 2 && item.snapshotGrowthPct !== undefined && item.snapshotGrowthPct !== 0) {
@@ -2584,6 +2979,7 @@
                             <div class="item-details">
                                 <span class="item-name">
                                     ${item.name}
+                                    ${ceilingBadge}
                                     ${item.addedDate === inventoryDiff.added?.find(i => i.name === item.name)?.addedDate ? '<span class="badge badge-hold-strong" style="font-size: 8px; padding: 1px 4px; margin-left: 4px; text-transform: none;">NEW</span>' : ''}
                                     <a class="market-link" href="${item.url}" target="_blank" onclick="event.stopPropagation();" title="去Gaijin市场查看">
                                         <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
@@ -2592,6 +2988,7 @@
                             </div>
                         </div>
                     </td>
+                    <td>${getCategoryBadge(item.category)}</td>
                     <td><span style="font-weight: 600;">${item.quantity || 1}</span></td>
                     <td>${firstListedText}</td>
                     <td class="price-col">
@@ -2603,11 +3000,12 @@
                             <span>在售: ${item.sellOrders !== undefined ? item.sellOrders : '-'}</span>
                             <span>税后: ${item.sellPrice !== null ? (item.sellPrice * 0.85).toFixed(2) : '-'}</span>
                         </div>
+                        ${fairText}
                     </td>
                     <td>
                         <input type="number" step="0.01" class="price-input" 
-                               value="${item.purchasePrice !== undefined && item.purchasePrice !== '' ? item.purchasePrice : 0}" 
-                               placeholder="平均购入价" 
+                               value="${item.purchasePrice !== undefined && item.purchasePrice !== '' ? item.purchasePrice : ''}" 
+                               placeholder="未录入" 
                                onclick="event.stopPropagation();" 
                                oninput="updatePurchasePrice('${item.name.replace(/'/g, "\\'")}', this.value)">
                     </td>
@@ -2638,6 +3036,71 @@
             });
         }
 
+        // 初始化多维筛选器上的物品计数徽章
+        function initFilterCounts(sourceData = activeInventorySource) {
+            const catCounts = {
+                all: sourceData.length,
+                '载具': 0,
+                '涂装': 0,
+                '箱子': 0,
+                '道具/挂饰': 0,
+                '活动材料': 0,
+                '其他': 0
+            };
+            const actCounts = {
+                all: sourceData.length,
+                STRONG_HOLD: 0,
+                HOLD_NEUTRAL: 0,
+                HOLD_DIP: 0,
+                GRADUAL_SELL: 0,
+                QUICK_SELL: 0
+            };
+
+            sourceData.forEach(item => {
+                const cat = item.category || '其他';
+                if (catCounts[cat] !== undefined) {
+                    catCounts[cat]++;
+                } else {
+                    catCounts['其他']++;
+                }
+
+                const act = item.action || 'HOLD_NEUTRAL';
+                if (actCounts[act] !== undefined) {
+                    actCounts[act]++;
+                }
+            });
+
+            // 更新类别计数
+            const elCatAll = document.getElementById('count-cat-all');
+            if (elCatAll) elCatAll.innerText = catCounts.all;
+            const elCatVeh = document.getElementById('count-cat-vehicle');
+            if (elCatVeh) elCatVeh.innerText = catCounts['载具'];
+            const elCatCamo = document.getElementById('count-cat-camo');
+            if (elCatCamo) elCatCamo.innerText = catCounts['涂装'];
+            const elCatBox = document.getElementById('count-cat-box');
+            if (elCatBox) elCatBox.innerText = catCounts['箱子'];
+            const elCatItem = document.getElementById('count-cat-item');
+            if (elCatItem) elCatItem.innerText = catCounts['道具/挂饰'];
+            const elCatMat = document.getElementById('count-cat-mat');
+            if (elCatMat) elCatMat.innerText = catCounts['活动材料'];
+            const elCatOth = document.getElementById('count-cat-other');
+            if (elCatOth) elCatOth.innerText = catCounts['其他'];
+
+            // 更新操作建议计数
+            const elActAll = document.getElementById('count-act-all');
+            if (elActAll) elActAll.innerText = actCounts.all;
+            const elActStr = document.getElementById('count-act-strong');
+            if (elActStr) elActStr.innerText = actCounts.STRONG_HOLD;
+            const elActNeu = document.getElementById('count-act-neutral');
+            if (elActNeu) elActNeu.innerText = actCounts.HOLD_NEUTRAL;
+            const elActDip = document.getElementById('count-act-dip');
+            if (elActDip) elActDip.innerText = actCounts.HOLD_DIP;
+            const elActGra = document.getElementById('count-act-gradual');
+            if (elActGra) elActGra.innerText = actCounts.GRADUAL_SELL;
+            const elActQui = document.getElementById('count-act-quick');
+            if (elActQui) elActQui.innerText = actCounts.QUICK_SELL;
+        }
+
         // 填充图表选择框
         function populateSelector() {
             const select = document.getElementById('vehicleSelect');
@@ -2665,26 +3128,57 @@
             });
         }
 
-        // 数据过滤检索逻辑
+        // 多维度联动数据检索与过滤逻辑 (分类 + 建议操作 + 成本状态 + 模糊搜索)
         function filterData() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            const actionFilter = document.querySelector('.filter-btn.active').getAttribute('data-action');
+            const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+            const catActiveBtn = document.querySelector('#categoryFilterGroup .filter-btn.active');
+            const catFilter = catActiveBtn ? catActiveBtn.getAttribute('data-val') : 'all';
+
+            const actActiveBtn = document.querySelector('#actionFilterGroup .filter-btn.active');
+            const actFilter = actActiveBtn ? actActiveBtn.getAttribute('data-val') : 'all';
+
+            const costActiveBtn = document.querySelector('#costFilterGroup .filter-btn.active');
+            const costFilter = costActiveBtn ? costActiveBtn.getAttribute('data-val') : 'all';
 
             const filtered = activeInventorySource.filter(item => {
-                const matchName = item.name.toLowerCase().includes(q);
+                // 1. 关键词搜索 (匹配名称、分类名称、建议文字)
+                let matchSearch = true;
+                if (q) {
+                    const name = (item.name || '').toLowerCase();
+                    const category = (item.category || '').toLowerCase();
+                    const actionName = (getActionText(item.action) || '').toLowerCase();
+                    matchSearch = name.includes(q) || category.includes(q) || actionName.includes(q);
+                }
 
-                if (actionFilter === 'all') return matchName;
+                // 2. 类别过滤
+                let matchCat = true;
+                if (catFilter !== 'all') {
+                    matchCat = (item.category === catFilter);
+                }
 
-                // 将动作映射成 CSS Badge 类
-                let itemClass = '';
-                if (item.action === 'STRONG_HOLD') itemClass = 'badge-hold-strong';
-                else if (item.action === 'HOLD_NEUTRAL') itemClass = 'badge-hold-neutral';
-                else if (item.action === 'HOLD_DIP') itemClass = 'badge-hold-dip';
-                else if (item.action === 'GRADUAL_SELL') itemClass = 'badge-sell-gradual';
-                else if (item.action === 'QUICK_SELL') itemClass = 'badge-sell-quick';
+                // 3. 建议操作过滤
+                let matchAct = true;
+                if (actFilter !== 'all') {
+                    matchAct = (item.action === actFilter);
+                }
 
-                return matchName && itemClass === actionFilter;
+                // 4. 成本状态过滤
+                let matchCost = true;
+                const hasCost = (item.purchasePrice !== undefined && item.purchasePrice !== '' && !isNaN(parseFloat(item.purchasePrice)) && parseFloat(item.purchasePrice) > 0);
+                if (costFilter === 'set') {
+                    matchCost = hasCost;
+                } else if (costFilter === 'unset') {
+                    matchCost = !hasCost;
+                }
+
+                return matchSearch && matchCat && matchAct && matchCost;
             });
+
+            const tabCountEl = document.getElementById('tab-inventory-count');
+            if (tabCountEl) {
+                tabCountEl.innerText = filtered.length;
+            }
 
             renderTable(filtered);
         }
@@ -2906,7 +3400,10 @@
                                     return date.toLocaleString();
                                 },
                                 label: function (context) {
-                                    return ` 均价: ${context.raw.toFixed(2)} GJN`;
+                                    const index = context.dataIndex;
+                                    const pt = activeHistory[index];
+                                    const volText = (pt && pt.length >= 3 && pt[2] > 0) ? ` | 成交: ${pt[2]} 辆` : '';
+                                    return ` 均价: ${context.raw.toFixed(2)} GJN${volText}`;
                                 }
                             }
                         }
@@ -2938,16 +3435,17 @@
             // 使用映射表精准寻找 NodeList 中的表头，避免原本三元表达式扩展混乱
             const headerIndexMap = {
                 0: 0,
-                1: 1,
-                2: 2,
-                3: 3,
-                8: 5,
-                4: 6,
-                5: 7,
-                6: 8,
-                7: 9,
-                9: 10,
-                10: 11
+                11: 1,
+                1: 2,
+                2: 3,
+                3: 4,
+                8: 6,
+                4: 7,
+                5: 8,
+                6: 9,
+                7: 10,
+                9: 11,
+                10: 12
             };
             const headerIdx = headerIndexMap[colIndex];
             const header = table.querySelectorAll("thead th")[headerIdx];
@@ -2973,6 +3471,10 @@
                     case 0: // 名字
                         valA = a.name;
                         valB = b.name;
+                        return isSortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                    case 11: // 类别
+                        valA = a.category || "其他";
+                        valB = b.category || "其他";
                         return isSortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
                     case 1: // 数量
                         valA = a.quantity || 1;
@@ -3023,7 +3525,354 @@
 
             filterData();
         }
+
+        // ==========================================
+        // GitHub 数据同步与上传模块 (Web 直连 API)
+        // ==========================================
+        let selectedFileContent = null;
+        let selectedFileName = '';
+
+        function openUploadModal() {
+            const modal = document.getElementById('uploadSyncModal');
+            if (!modal) return;
+            
+            // 读取已保存的 Token 和 Repo
+            const savedToken = localStorage.getItem('wt_github_token') || '';
+            const savedRepo = localStorage.getItem('wt_github_repo_inventory') || 'kangkang4468/wt-market-inventory-analyst';
+            
+            const tokenInput = document.getElementById('tokenInput');
+            const repoInput = document.getElementById('repoInput');
+            if (tokenInput) tokenInput.value = savedToken;
+            if (repoInput) repoInput.value = savedRepo;
+
+            // 预设今天日期的文件名
+            if (!selectedFileName) {
+                const todayStr = new Date().toISOString().split('T')[0];
+                const targetInput = document.getElementById('targetFileNameInput');
+                if (targetInput) targetInput.value = `daily_json/gaijin_inventory_${todayStr}.json`;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeUploadModal() {
+            const modal = document.getElementById('uploadSyncModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        function handleModalOverlayClick(e) {
+            if (e.target.id === 'uploadSyncModal') {
+                closeUploadModal();
+            }
+        }
+
+        function toggleTokenVisibility() {
+            const input = document.getElementById('tokenInput');
+            if (input) {
+                input.type = input.type === 'password' ? 'text' : 'password';
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').classList.remove('dragover');
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                processFile(e.dataTransfer.files[0]);
+            }
+        }
+
+        function handleFileChange(e) {
+            if (e.target.files && e.target.files.length > 0) {
+                processFile(e.target.files[0]);
+            }
+        }
+
+        function processFile(file) {
+            if (!file.name.endsWith('.json')) {
+                showToast('请上传格式为 .json 的个人仓库快照数据文件！');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const parsed = JSON.parse(evt.target.result);
+                    if (!Array.isArray(parsed)) {
+                        showToast('JSON 格式异常：数据应为一个数组列表！');
+                        return;
+                    }
+                    selectedFileContent = evt.target.result;
+                    selectedFileName = file.name;
+
+                    // 智能推测日期并填充目标路径
+                    let inferredDate = '';
+                    const dateMatch = file.name.match(/\d{4}-\d{2}-\d{2}/);
+                    if (dateMatch) {
+                        inferredDate = dateMatch[0];
+                    } else {
+                        inferredDate = new Date().toISOString().split('T')[0];
+                    }
+                    const targetInput = document.getElementById('targetFileNameInput');
+                    if (targetInput) {
+                        targetInput.value = `daily_json/gaijin_inventory_${inferredDate}.json`;
+                    }
+
+                    // 展示文件信息
+                    document.getElementById('dropZone').style.display = 'none';
+                    const badge = document.getElementById('fileInfoBadge');
+                    badge.style.display = 'flex';
+                    document.getElementById('fileInfoName').innerText = file.name;
+                    document.getElementById('fileInfoMeta').innerText = `有效条目: ${parsed.length} 件 | 大小: ${(file.size / 1024).toFixed(1)} KB | 推断快照日期: ${inferredDate}`;
+                    
+                    logSync(`已加载本地个人仓库文件 [${file.name}]，包含 ${parsed.length} 条资产数据。`, 'info');
+                } catch (err) {
+                    showToast('无法解析此 JSON 文件，请检查文件完整性！');
+                }
+            };
+            reader.readAsText(file, 'utf-8');
+        }
+
+        function clearSelectedFile(e) {
+            if (e) e.stopPropagation();
+            selectedFileContent = null;
+            selectedFileName = '';
+            document.getElementById('jsonFileInput').value = '';
+            document.getElementById('fileInfoBadge').style.display = 'none';
+            document.getElementById('dropZone').style.display = 'block';
+            const logBox = document.getElementById('syncStatusLog');
+            if (logBox) logBox.style.display = 'none';
+        }
+
+        function logSync(msg, type = 'info') {
+            const logBox = document.getElementById('syncStatusLog');
+            if (!logBox) return;
+            logBox.style.display = 'block';
+            let color = 'var(--text-muted)';
+            if (type === 'success') color = 'var(--green)';
+            if (type === 'error') color = 'var(--red)';
+            if (type === 'warning') color = 'var(--orange)';
+            if (type === 'progress') color = 'var(--gold)';
+            
+            const timeStr = new Date().toLocaleTimeString();
+            const line = `<div style="color: ${color}; margin-bottom: 4px;">[${timeStr}] ${msg}</div>`;
+            logBox.innerHTML += line;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function utf8ToBase64(str) {
+            const bytes = new TextEncoder().encode(str);
+            let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+
+        async function submitToGithub() {
+            if (!selectedFileContent) {
+                showToast('请先选择或拖入要上传的 JSON 数据文件！');
+                return;
+            }
+
+            const token = document.getElementById('tokenInput').value.trim();
+            const repo = document.getElementById('repoInput').value.trim();
+            const targetPath = document.getElementById('targetFileNameInput').value.trim();
+            const rememberToken = document.getElementById('rememberToken').checked;
+
+            if (!token) {
+                showToast('请填写 GitHub Personal Access Token (PAT)！');
+                document.getElementById('tokenInput').focus();
+                return;
+            }
+            if (!repo || !repo.includes('/')) {
+                showToast('请填写有效的仓库名 (格式如: 用户名/仓库名)！');
+                return;
+            }
+            if (!targetPath) {
+                showToast('请填写目标入库文件路径！');
+                return;
+            }
+
+            if (rememberToken) {
+                localStorage.setItem('wt_github_token', token);
+                localStorage.setItem('wt_github_repo_inventory', repo);
+            } else {
+                localStorage.removeItem('wt_github_token');
+            }
+
+            const btn = document.getElementById('startSyncBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳ 正在同步中...</span>';
+
+            const logBox = document.getElementById('syncStatusLog');
+            logBox.innerHTML = '';
+            logSync(`准备将个人仓库数据同步至 GitHub: ${repo}`, 'progress');
+            logSync(`目标入库路径: ${targetPath}`, 'info');
+
+            try {
+                // 1. 检查文件是否已存在以获取 SHA (避免 422 冲突)
+                logSync(`正在校验远端分支文件状态...`, 'progress');
+                const apiUrl = `https://api.github.com/repos/${repo}/contents/${targetPath}`;
+                let existingSha = null;
+
+                const checkRes = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (checkRes.status === 200) {
+                    const checkData = await checkRes.json();
+                    existingSha = checkData.sha;
+                    logSync(`检测到同名历史快照已存在 (SHA: ${existingSha.substring(0, 7)})，将执行更新替换。`, 'warning');
+                } else if (checkRes.status === 404) {
+                    logSync(`远端尚无此日快照，将创建新文件。`, 'info');
+                } else if (checkRes.status === 401) {
+                    throw new Error('Token 无效或已过期，请检查 GitHub PAT 凭证！');
+                } else if (checkRes.status === 403) {
+                    throw new Error('Token 权限不足或触发 API 速率限制，请确保勾选了 repo 权限！');
+                }
+
+                // 2. 编码内容并推送
+                logSync(`正在上传数据并提交至 main 分支...`, 'progress');
+                const base64Content = utf8ToBase64(selectedFileContent);
+                const dateMatch = targetPath.match(/\d{4}-\d{2}-\d{2}/);
+                const snapshotDate = dateMatch ? dateMatch[0] : new Date().toISOString().split('T')[0];
+
+                const payload = {
+                    message: `feat(data): 上传最新个人仓库数据快照 [${snapshotDate}] [skip ci]`,
+                    content: base64Content,
+                    branch: 'main'
+                };
+                if (existingSha) {
+                    payload.sha = existingSha;
+                }
+
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!putRes.ok) {
+                    const errData = await putRes.json().catch(() => ({}));
+                    throw new Error(errData.message || `HTTP 错误 ${putRes.status}`);
+                }
+
+                const putData = await putRes.json();
+                const commitSha = putData.commit ? putData.commit.sha.substring(0, 7) : '';
+                
+                logSync(`🎉 提交成功！Commit: ${commitSha}`, 'success');
+                logSync(`🚀 GitHub Actions 流水线已自动被触发启动！`, 'success');
+                logSync(`⚡ 系统正在执行量化评估与页面生成，预计 1~2 分钟内完成全网自动更新。`, 'progress');
+
+                btn.innerHTML = '<span>✅ 同步成功</span>';
+                btn.style.background = 'var(--green)';
+                btn.style.color = '#0f1013';
+
+                // 提供 Actions 链接
+                const actionsUrl = `https://github.com/${repo}/actions`;
+                logSync(`<a href="${actionsUrl}" target="_blank" style="color: var(--gold-light); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 6px;">👉 点击前往 GitHub Actions 实时查看构建进度</a>`, 'info');
+
+                showToast('🎉 数据已成功同步到 GitHub，流水线正在自动更新中！');
+
+            } catch (error) {
+                logSync(`❌ 同步失败: ${error.message}`, 'error');
+                showToast(`同步失败: ${error.message}`);
+                btn.disabled = false;
+                btn.innerHTML = '<span>🚀 重新尝试上传</span>';
+            }
+        }
     </script>
+
+    <!-- GitHub 数据同步上传模态弹窗 -->
+    <div class="modal-overlay" id="uploadSyncModal" onclick="handleModalOverlayClick(event)">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gold);"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="12 13 12 8 9 11"/><polyline points="12 8 15 11"/></svg>
+                    同步最新个人仓库快照到 GitHub
+                </h2>
+                <button class="modal-close" onclick="closeUploadModal()">&times;</button>
+            </div>
+
+            <!-- 文件拖拽上传区域 -->
+            <div class="drop-zone" id="dropZone" onclick="document.getElementById('jsonFileInput').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                <div class="drop-zone-icon">📥</div>
+                <div style="font-weight: 600; color: var(--gold-light); margin-bottom: 4px;">点击或拖拽最新导出的 JSON 数据文件至此处</div>
+                <div class="drop-zone-text">支持 exporter.js 导出的 gaijin_inventory_*.json 文件</div>
+                <input type="file" id="jsonFileInput" accept=".json" style="display: none;" onchange="handleFileChange(event)">
+            </div>
+
+            <!-- 文件解析信息卡片 -->
+            <div class="file-info-badge" id="fileInfoBadge">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 16px;">📄</span>
+                    <div>
+                        <div id="fileInfoName" style="font-weight: 600; color: var(--text-main);">未选择文件</div>
+                        <div id="fileInfoMeta" style="font-size: 11px; color: var(--text-dark); margin-top: 2px;">解析中...</div>
+                    </div>
+                </div>
+                <button onclick="clearSelectedFile(event)" style="background: transparent; border: none; color: var(--red); font-size: 12px; cursor: pointer; padding: 4px;">移除</button>
+            </div>
+
+            <!-- 配置表单 -->
+            <div class="form-group">
+                <label class="form-label" for="repoInput">目标 GitHub 仓库 (Owner/Repo)</label>
+                <input type="text" id="repoInput" class="form-input" value="kangkang4468/wt-market-inventory-analyst" placeholder="例如: kangkang4468/wt-market-inventory-analyst">
+            </div>
+
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label class="form-label" for="tokenInput" style="margin-bottom: 0;">GitHub Personal Access Token (PAT)</label>
+                    <a href="https://github.com/settings/tokens/new?scopes=repo&description=WT_Inventory_Sync" target="_blank" style="font-size: 11px; color: var(--gold); text-decoration: none;">🔑 申请 Token (勾选 repo)</a>
+                </div>
+                <div style="position: relative; margin-top: 6px;">
+                    <input type="password" id="tokenInput" class="form-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="padding-right: 40px;">
+                    <button type="button" onclick="toggleTokenVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--text-dark); cursor: pointer; font-size: 14px;" title="显示/隐藏 Token">👁️</button>
+                </div>
+                <div class="token-tip">
+                    <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-muted);">
+                        <input type="checkbox" id="rememberToken" checked style="accent-color: var(--gold);"> 在本浏览器记住 Token (仅保存在本地 localStorage)
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="targetFileNameInput">入库文件路径</label>
+                <input type="text" id="targetFileNameInput" class="form-input" placeholder="daily_json/gaijin_inventory_YYYY-MM-DD.json">
+            </div>
+
+            <!-- 状态日志区域 -->
+            <div class="status-log" id="syncStatusLog"></div>
+
+            <!-- 操作按钮 -->
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeUploadModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 11px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">取消</button>
+                <button type="button" id="startSyncBtn" class="btn-primary" onclick="submitToGithub()">
+                    <span>🚀 立即上传并触发云端构建</span>
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -387,8 +387,9 @@
                     const rawHistory = result["1d"] || [];
                     priceHistory = rawHistory.map(pt => {
                         // pt 结构: [timestamp_seconds, price, volume]
-                        // 转换时需要将秒时间戳乘以 1000 转换为毫秒时间戳，并提取 [timestamp_ms, price]，且价格需除以 10000 换算为 GJN 浮点数
-                        return [pt[0] * 1000, parseFloat(pt[1]) / 10000];
+                        // 转换时需要将秒时间戳乘以 1000 转换为毫秒时间戳，提取 [timestamp_ms, price, volume]，且价格需除以 10000 换算为 GJN 浮点数
+                        const vol = pt.length >= 3 ? parseInt(pt[2], 10) || 0 : 0;
+                        return [pt[0] * 1000, parseFloat(pt[1]) / 10000, vol];
                     });
                 } else {
                     console.log(`%c[警告] 获取 "${item.name}" 历史走势接口解析失败`, LOG_STYLE_WARN);

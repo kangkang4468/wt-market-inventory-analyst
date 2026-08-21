@@ -1,19 +1,16 @@
-name: Daily Gaijin Market Scraper & Deploy
+name: Gaijin Inventory Analytics & Deploy
 
 on:
   push:
     branches:
       - main
     paths:
-      # 仅在数据 JSON 文件、元数据文件或工作流自身发生变动时触发自动部署
-      - 'daily_json/gaijin_market_*.json'
+      # 仅在数据 JSON 文件、元数据文件、模板、脚本或工作流变动时触发
       - 'daily_json/gaijin_inventory_*.json'
       - 'inventory_meta.json'
+      - 'report_template.html'
       - '*.py'
       - '.github/workflows/**'
-  schedule:
-    # 每天北京时间凌晨 04:00 自动执行
-    - cron: '0 20 * * *'
   workflow_dispatch:
     # 支持手动触发
 
@@ -54,7 +51,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add daily_json/gaijin_inventory_*.json report.html index.html
-          git diff-index --quiet HEAD || git commit -m "chore: 自动更新今日个人仓库数据及分析报告 [$(date +'%Y-%m-%d')]"
+          git diff-index --quiet HEAD || git commit -m "chore: 自动更新个人仓库数据及分析报告 [$(date +'%Y-%m-%d')] [skip ci]"
           git push
 
       - name: Upload Artifact
