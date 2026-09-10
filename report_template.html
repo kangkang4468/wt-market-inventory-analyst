@@ -3769,7 +3769,7 @@
                 const snapshotDate = dateMatch ? dateMatch[0] : new Date().toISOString().split('T')[0];
 
                 const payload = {
-                    message: `feat(data): 上传最新个人仓库数据快照 [${snapshotDate}] [skip ci]`,
+                    message: `feat(data): 上传最新个人仓库数据快照 [${snapshotDate}]`,
                     content: base64Content,
                     branch: 'main'
                 };
@@ -3802,8 +3802,25 @@
                 const commitSha = putData.commit ? putData.commit.sha.substring(0, 7) : '';
                 
                 logSync(`🎉 提交成功！Commit: ${commitSha}`, 'success');
-                logSync(`🚀 GitHub Actions 流水线已自动被触发启动！`, 'success');
-                logSync(`⚡ 系统正在执行量化评估与页面生成，预计 1~2 分钟内完成全网自动更新。`, 'progress');
+
+                // 3. 额外主动唤醒 GitHub Actions 流水线 (双重保障)
+                try {
+                    logSync(`正在通知 GitHub Actions 启动量化分析流水线...`, 'progress');
+                    await fetch(`https://api.github.com/repos/${repo}/actions/workflows/daily_scrape.yml/dispatches`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': authHeader,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ ref: 'main' })
+                    });
+                    logSync(`🚀 GitHub Actions 流水线已成功被唤醒！`, 'success');
+                } catch (e) {
+                    logSync(`🚀 GitHub Actions 已通过 Git Push 自动触发！`, 'success');
+                }
+
+                logSync(`⚡ 系统正在云端执行量化评估与页面生成，预计 1~2 分钟内完成全网自动更新。`, 'progress');
 
                 btn.innerHTML = '<span>✅ 同步成功</span>';
                 btn.style.background = 'var(--green)';
