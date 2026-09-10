@@ -4,13 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      # 仅在数据 JSON 文件、元数据文件、模板、脚本或工作流变动时触发
-      - 'daily_json/gaijin_inventory_*.json'
-      - 'inventory_meta.json'
-      - 'report_template.html'
-      - '*.py'
-      - '.github/workflows/**'
   workflow_dispatch:
     # 支持手动触发
 
