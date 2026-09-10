@@ -441,8 +441,8 @@
 
     console.log("%c所有库存载具数据抓取完毕！正在下载数据文件...", LOG_STYLE_SUCCESS);
 
-    // 3. 导出 JSON 并下载
-    const blob = new Blob([JSON.stringify(inventoryData, null, 4)], { type: 'application/json' });
+    // 3. 导出 JSON 并下载 (采用紧凑格式，节约 75% 体积，防止数据过大导致上传超时)
+    const blob = new Blob([JSON.stringify(inventoryData)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const dateStr = new Date().toISOString().split('T')[0];
     const filename = `gaijin_inventory_${dateStr}.json`;
